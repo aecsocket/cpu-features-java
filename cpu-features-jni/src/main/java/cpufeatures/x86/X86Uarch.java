@@ -1,6 +1,6 @@
 package cpufeatures.x86;
 
-public enum X86Microarchitecture {
+public enum X86Uarch {
     X86_UNKNOWN,
     ZHAOXIN_ZHANGJIANG,   // ZhangJiang
     ZHAOXIN_WUDAOKOU,     // WuDaoKou

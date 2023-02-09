@@ -1,9 +1,6 @@
 package cpufeatures.aarch64;
 
 import cpufeatures.CpuFeatures;
-import cpufeatures.x86.X86Feature;
-import cpufeatures.x86.X86Features;
-import cpufeatures.x86.X86Microarchitecture;
 import io.github.aecsocket.jniglue.JniCallback;
 import io.github.aecsocket.jniglue.JniNative;
 import io.github.aecsocket.jniglue.JniReferenced;
