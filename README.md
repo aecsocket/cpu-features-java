@@ -20,5 +20,6 @@ dependencies {
 ```sh
 git clone https://github.com/aecsocket/cpu-features-jni
 cd cpu-features-jni
-./gradlew build
+git submodule update --init
+./gradlew generateNatives build
 ```

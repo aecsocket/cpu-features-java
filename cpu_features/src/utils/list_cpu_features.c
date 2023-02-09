@@ -395,7 +395,7 @@ static Node* CreateTree(void) {
   AddMapEntry(root, "revision", CreateInt(info.revision));
   AddFlags(root, &info.features);
 #elif defined(CPU_FEATURES_ARCH_AARCH64)
-  const Aarch64Info info = GetAarch64I3nfo();
+  const Aarch64Info info = GetAarch64Info();
   AddMapEntry(root, "arch", CreateString("aarch64"));
   AddMapEntry(root, "implementer", CreateInt(info.implementer));
   AddMapEntry(root, "variant", CreateInt(info.variant));

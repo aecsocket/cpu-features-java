@@ -8,7 +8,9 @@ jobs:
     steps:
       - name: "Checkout source"
         uses: actions/checkout@v3
+        with:
+          submodules: true
       - name: "Setup Gradle"
         uses: gradle/gradle-build-action@v2
       - name: "Run Gradle build"
-        run: "./gradlew build"
+        run: "./gradlew generateNatives build"

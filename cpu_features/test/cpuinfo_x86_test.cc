@@ -1641,8 +1641,6 @@ TEST_F(CpuidX86Test, INTEL_HASWELL_LZCNT) {
   EXPECT_EQ(GetX86Microarchitecture(&info), X86Microarchitecture::INTEL_HSW);
 
   EXPECT_TRUE(info.features.lzcnt);
-
-  GetX86Info()
 }
 
 // https://github.com/google/cpu_features/issues/200

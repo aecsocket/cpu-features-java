@@ -6,6 +6,12 @@ import cpufeatures.riscv.RiscvInfo;
 import cpufeatures.x86.X86Info;
 import io.github.aecsocket.jniglue.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 @JniNative(CpuFeatures.JNI_MODEL)
 @JniInclude("<cpuinfo_x86.h>")
 @JniHeader("""
@@ -38,10 +44,22 @@ import io.github.aecsocket.jniglue.*;
 public final class CpuFeatures {
     public static final String JNI_MODEL = "cpufeatures/CpuFeaturesJNI";
 
+    private static final AtomicBoolean loaded = new AtomicBoolean(false);
+
     public static void load() {
-        // TODO properly
-        String file = System.getProperty("user.dir") + "/../cpu-features-jni-bindings/build/lib/main/debug/libcpu-features-jni-bindings.so";
-        System.load(file);
+        if (loaded.getAndSet(true)) return;
+
+        String libName = JniPlatform.get().mapLibraryName("cpu-features-jni-bindings");
+        String resourcePath = "cpufeatures/" + libName;
+        try (var libIn = CpuFeatures.class.getClassLoader().getResourceAsStream(resourcePath)) {
+            if (libIn == null)
+                throw new IllegalStateException("No JNI library in JAR " + resourcePath);
+            var libFile = Files.createTempFile(libName, null);
+            Files.copy(libIn, libFile, StandardCopyOption.REPLACE_EXISTING);
+            System.load(libFile.toAbsolutePath().toString());
+        } catch (IOException ex) {
+            throw new IllegalStateException("Could not load JNI library", ex);
+        }
     }
 
     public static CpuArchitecture getArchitecture() { return CpuArchitecture.values()[_getArchitecture()]; }
