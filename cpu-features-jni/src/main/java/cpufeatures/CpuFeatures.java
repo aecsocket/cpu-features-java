@@ -9,7 +9,6 @@ import io.github.aecsocket.jniglue.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @JniNative(CpuFeatures.JNI_MODEL)
@@ -19,15 +18,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
         
         #if defined(CPU_FEATURES_ARCH_AARCH64)
         #include <cpuinfo_aarch64.h>
+        int cpuFeaturesArch = 0;
         #endif
         #if defined(CPU_FEATURES_ARCH_ARM)
         #include <cpuinfo_arm.h>
+        int cpuFeaturesArch = 1;
         #endif
         #if defined(CPU_FEATURES_ARCH_RISCV)
         #include <cpuinfo_riscv.h>
+        int cpuFeaturesArch = 4;
         #endif
         #if defined(CPU_FEATURES_ARCH_X86)
         #include <cpuinfo_x86.h>
+        int cpuFeaturesArch = 6;
         #endif
         
         jclass jni_IllegalStateException;
@@ -63,22 +66,7 @@ public final class CpuFeatures {
     }
 
     public static CpuArchitecture getArchitecture() { return CpuArchitecture.values()[_getArchitecture()]; }
-    @JniBind("""
-            #if defined(CPU_FEATURES_ARCH_AARCH64)
-            return 0;
-            #elif defined(CPU_FEATURES_ARCH_ARM)
-            return 1;
-            #elif defined(CPU_FEATURES_ARCH_MIPS)
-            return 2;
-            #elif defined(CPU_FEATURES_ARCH_PPC)
-            return 3;
-            #elif defined(CPU_FEATURES_ARCH_RICSV)
-            return 4;
-            #elif defined(CPU_FEATURES_ARCH_S390X)
-            return 5;
-            #elif defined(CPU_FEATURES_ARCH_X86)
-            return 6;
-            #endif""")
+    @JniBind("return cpuFeaturesArch;")
     private static native int _getArchitecture();
 
     public static Aarch64Info getAarch64Info() { return _getAarch64Info(); }

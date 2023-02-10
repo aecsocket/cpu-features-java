@@ -1,5 +1,5 @@
 plugins {
-    id("java-conventions")
+    id("publishing-conventions")
 }
 
 val bindings = projects.cpuFeaturesJniBindings.dependencyProject

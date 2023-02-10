@@ -5,7 +5,7 @@ public enum CpuArchitecture {
     ARM,
     MIPS,
     PPC,
-    RICSV,
+    RISCV,
     S390X,
     X86
 }

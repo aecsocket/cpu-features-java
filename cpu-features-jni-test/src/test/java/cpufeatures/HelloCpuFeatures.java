@@ -49,7 +49,7 @@ public final class HelloCpuFeatures {
                 keys.put("revision", formatInt(info.revision));
                 keys.put("flags", info.featureList().toString());
             }
-            case RICSV -> {
+            case RISCV -> {
                 RiscvInfo info = CpuFeatures.getRiscvInfo();
                 keys.put("arch", "risc-v");
                 keys.put("vendor", info.vendor);
