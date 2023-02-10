@@ -30,7 +30,11 @@ afterEvaluate {
                 this@jar.mustRunAfter(this)
             }
             from("${bindings.buildDir}/lib/main/debug/${nativesExt.bindingsFileName.get()}") {
-                into("cpufeatures/")
+                var dest = "cpufeatures/"
+                if (nativesExt.destInnerDir.isPresent) {
+                    dest += "${nativesExt.destInnerDir.get()}/"
+                }
+                into(dest)
             }
         }
     }
