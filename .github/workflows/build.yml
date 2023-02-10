@@ -1,12 +1,18 @@
 name: "Build"
 
-on: [ push ]
+on:
+  push:
+    branches: "**"
+    tags-ignore: [ "**" ]
+  pull_request:
 
 jobs:
   build:
+    # Only run on PRs if the source branch is on someone else's repo
+    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
     strategy:
       matrix:
-        os: [ macos-latest ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     runs-on: ${{ matrix.os }}
 
@@ -32,13 +38,13 @@ jobs:
       #      echo "VERSION_TYPE=release" >> $GITHUB_ENV
       #    fi
       #- name: "Publish snapshot"
-      #  if: "${{ env.VERSION_TYPE == 'snapshot' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}"
+      #  if: ${{ env.VERSION_TYPE == 'snapshot' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       #  run: ./gradlew publish
       #  env:
       #    ORG_GRADLE_PROJECT_sonatypeUsername: "${{ secrets.SONATYPE_USERNAME }}"
       #    ORG_GRADLE_PROJECT_sonatypePassword: "${{ secrets.SONATYPE_PASSWORD }}"
       #- name: "Publish release"
-      #  if: "${{ env.VERSION_TYPE == 'release' && github.event_name == 'push' }}"
+      #  if: ${{ env.VERSION_TYPE == 'release' && github.event_name == 'push' }}
       #  run: ./gradlew -PforceSign=true publishToSonatype closeAndReleaseSonatypeStagingRepository
       #  env:
       #    ORG_GRADLE_PROJECT_sonatypeUsername: "${{ secrets.SONATYPE_USERNAME }}"
