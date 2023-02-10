@@ -40,7 +40,7 @@ tasks {
     val libName = when {
         os.isLinux -> "libcpu_features.a"
         os.isWindows -> "cpu_features.dll"
-        os.isMacOsX -> "libcpu_features.dylib"
+        os.isMacOsX -> "libcpu_features.a"
         else -> throw IllegalStateException("Unsupported OS $os")
     }
     withType<LinkSharedLibrary> {
