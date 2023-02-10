@@ -10,6 +10,7 @@ val cpuFeaturesJni = projects.cpuFeaturesJni.dependencyProject
 library {
     binaries.configureEach {
         val compileTask = compileTask.get()
+        compileTask.compilerArgs.add("--std=c++11")
         // include generated native code
         compileTask.dependsOn(cpuFeaturesJni.tasks["compileJava"])
         compileTask.includes("${cpuFeaturesJni.buildDir}/generated/sources/annotationProcessor/java/main/cpufeatures/")
