@@ -46,14 +46,13 @@ jobs:
         run: ./gradlew publish
         env:
           CI_PUBLISH_API: ${{ matrix.publish-api }}
-          CI_OS: ${{ matrix.os }}
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
       - name: "Publish release"
         if: ${{ env.version_type == 'release' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         run: ./gradlew -PforceSign=true publishToSonatype
         env:
-          CI_OS: ${{ matrix.os }}
+          CI_PUBLISH_API: ${{ matrix.publish-api }}
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
