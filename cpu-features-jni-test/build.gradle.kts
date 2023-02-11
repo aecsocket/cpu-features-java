@@ -7,8 +7,8 @@ dependencies {
 
     testImplementation(libs.jUnitJupiterApi)
     testImplementation(libs.jUnitJupiterEngine)
-    testRuntimeOnly(projects.cpuFeaturesJniNativesLinux)
-    testRuntimeOnly(projects.cpuFeaturesJniNativesWindows)
-    testRuntimeOnly(projects.cpuFeaturesJniNativesMacos)
-    testRuntimeOnly(projects.cpuFeaturesJniNativesMacosArm64)
+    testRuntimeOnly(projects.cpuFeaturesJniNatives.linux)
+    testRuntimeOnly(projects.cpuFeaturesJniNatives.windows)
+    testRuntimeOnly(projects.cpuFeaturesJniNatives.macos)
+    testRuntimeOnly(projects.cpuFeaturesJniNatives.macosArm64)
 }

@@ -1,5 +1,9 @@
 plugins {
-    id("publishing-conventions")
+    id("java-conventions")
+}
+
+if (!ci.get() || ciPublishApi.get()) {
+    plugins.apply("publishing-conventions")
 }
 
 dependencies {
