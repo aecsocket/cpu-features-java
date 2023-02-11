@@ -34,14 +34,7 @@ library {
 }
 
 tasks {
-    val os = org.gradle.internal.os.OperatingSystem.current()
-    val libName = when {
-        os.isLinux -> "libcpu_features.a"
-        os.isWindows -> "cpu_features.dll"
-        os.isMacOsX -> "libcpu_features.dylib"
-        else -> throw IllegalStateException("Unsupported OS $os")
-    }
     withType<LinkSharedLibrary> {
-        libs.from("$rootDir/cpu_features/build/$libName")
+        libs.from("$rootDir/cpu_features/build/libcpu_features.a")
     }
 }

@@ -1,3 +1,5 @@
+import org.gradle.internal.os.OperatingSystem
+
 plugins {
     id("publishing-conventions")
 }
@@ -16,7 +18,13 @@ afterEvaluate {
             val buildDir = "$rootDir/cpu_features/"
 
             workingDir = File(buildDir)
-            commandLine = listOf("cmake", "-S.", "-Bbuild", "-DBUILD_TESTING=OFF", "-DCMAKE_BUILD_TYPE=Release")
+            // TODO there is a cleaner way to do this
+            // Windows requires `-G=Ninja` because otherwise it tries (and fails) to build with nmake
+            val os = OperatingSystem.current()
+            commandLine = when {
+                os.isWindows -> listOf("cmake", "-S.", "-Bbuild", "-DBUILD_TESTING=OFF", "-DCMAKE_BUILD_TYPE=Release", "-G=Ninja")
+                else -> listOf("cmake", "-S.", "-Bbuild", "-DBUILD_TESTING=OFF", "-DCMAKE_BUILD_TYPE=Release")
+            }
 
             doLast {
                 exec {
@@ -25,16 +33,13 @@ afterEvaluate {
                 }
             }
         }
+
         jar {
             bindings.tasks.withType<LinkSharedLibrary> {
-                this@jar.mustRunAfter(this)
+                this@jar.dependsOn(this)
             }
             from("${bindings.buildDir}/lib/main/debug/${nativesExt.bindingsFileName.get()}") {
-                var dest = "cpufeatures/"
-                if (nativesExt.destInnerDir.isPresent) {
-                    dest += "${nativesExt.destInnerDir.get()}/"
-                }
-                into(dest)
+                into("cpufeatures/${nativesExt.destInnerDir.get()}")
             }
         }
     }
