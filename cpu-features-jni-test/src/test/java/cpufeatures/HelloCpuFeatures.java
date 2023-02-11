@@ -56,20 +56,7 @@ public final class HelloCpuFeatures {
                 keys.put("uarch", info.uarch);
                 keys.put("flags", info.featureList().toString());
             }
-            // todo not yet supported
-//            case MIPS -> {
-//                MipsInfo = CpuFeatures.getMipsInfo();
-//                keys.put("arch", "mips");
-//                keys.put("flags", info.featureList().toString());
-//            }
-//            case PPC -> {
-//                PPCInfo info = CpuFeatures.getPPCInfo();
-//                keys.put("arch", "ppc");
-//            }
-//            case S390X -> {
-//                S390XInfo = CpuFeatures.getS390XInfo();
-//                keys.put("arch", "s390x");
-//            }
+            default -> throw new IllegalStateException("Unsupported architecture");
         }
 
         for (var entry : keys.entrySet()) {

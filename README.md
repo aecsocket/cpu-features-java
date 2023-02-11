@@ -12,6 +12,12 @@ Java bindings for [Google cpu_features](https://github.com/google/cpu_features)
 
 </div>
 
+This project supports the following architectures:
+* aarch64
+* arm
+* riscv
+* x86
+
 ## Usage
 
 ```kotlin

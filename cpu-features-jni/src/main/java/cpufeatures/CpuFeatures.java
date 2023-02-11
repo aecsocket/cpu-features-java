@@ -18,19 +18,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
         
         #if defined(CPU_FEATURES_ARCH_AARCH64)
         #include <cpuinfo_aarch64.h>
-        int cpuFeaturesArch = 0;
+        #define CPU_FEATURES_JNI_ARCH 1
         #endif
         #if defined(CPU_FEATURES_ARCH_ARM)
         #include <cpuinfo_arm.h>
-        int cpuFeaturesArch = 1;
+        #define CPU_FEATURES_JNI_ARCH 2
         #endif
         #if defined(CPU_FEATURES_ARCH_RISCV)
         #include <cpuinfo_riscv.h>
-        int cpuFeaturesArch = 4;
+        #define CPU_FEATURES_JNI_ARCH 3
         #endif
         #if defined(CPU_FEATURES_ARCH_X86)
         #include <cpuinfo_x86.h>
-        int cpuFeaturesArch = 6;
+        #define CPU_FEATURES_JNI_ARCH 4
+        #endif
+        #if !defined(CPU_FEATURES_JNI_ARCH)
+        #define CPU_FEATURES_JNI_ARCH 0
         #endif
         
         jclass jni_IllegalStateException;
@@ -73,7 +76,7 @@ public final class CpuFeatures {
     }
 
     public static CpuArchitecture getArchitecture() { return CpuArchitecture.values()[_getArchitecture()]; }
-    @JniBind("return cpuFeaturesArch;")
+    @JniBind("return CPU_FEATURES_JNI_ARCH;")
     private static native int _getArchitecture();
 
     public static Aarch64Info getAarch64Info() { return _getAarch64Info(); }
