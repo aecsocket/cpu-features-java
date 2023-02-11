@@ -1,5 +1,3 @@
-import net.kyori.indra.util.Versioning
-
 plugins {
     id("parent-conventions")
 }
@@ -15,6 +13,6 @@ description = "Java bindings for Google cpu_features"
 
 tasks.register("printVersionType") {
     doFirst {
-        println(if (Versioning.isRelease(project)) "release" else "snapshot")
+        println(if (net.kyori.indra.util.Versioning.isRelease(project)) "release" else "snapshot")
     }
 }
