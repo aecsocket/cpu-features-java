@@ -52,8 +52,15 @@ public final class CpuFeatures {
     public static void load() {
         if (loaded.getAndSet(true)) return;
 
-        String libName = JniPlatform.get().mapLibraryName("cpu-features-jni-bindings");
-        String resourcePath = "cpufeatures/" + libName;
+        var platform = JniPlatform.get();
+        var libName = platform.mapLibraryName("cpu-features-jni-bindings");
+
+        String resourcePath = "cpufeatures/" + switch (platform) {
+            case LINUX -> "linux/";
+            case WINDOWS -> "windows/";
+            case MACOS -> "macos/";
+            case MACOS_ARM64 -> "macos_arm64/";
+        } + libName;
         try (var libIn = CpuFeatures.class.getClassLoader().getResourceAsStream(resourcePath)) {
             if (libIn == null)
                 throw new IllegalStateException("No JNI library in JAR " + resourcePath);
