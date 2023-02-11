@@ -6,8 +6,7 @@ plugins {
 
 indra {
     javaVersions {
-        minimumToolchain(15)
-        target(15)
+        target(17)
     }
 }
 
