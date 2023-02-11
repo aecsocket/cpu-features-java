@@ -3,7 +3,7 @@ plugins {
 }
 
 natives {
-    platform.set("windows")
+    platformPredicate.set { it.isWindows }
     bindingsFileName.set("cpu-features-jni-bindings.dll")
     destInnerDir.set("windows")
 }

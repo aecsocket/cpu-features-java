@@ -39,7 +39,7 @@ implementation.
 
 ### Entry point
 
-The class `cpufeatures.CpuFeatures` is your entry point to the library. Firstly run `CpuFeatures.load()` to load the
+The class `cpufeatures.CpuFeatures` is the entry point to the library. Frist run `CpuFeatures.load()` to load the
 native libraries from the jar (in `cpufeatures/`), or load them yourself using `System.load`.
 
 ### Getting CPU info
@@ -64,9 +64,12 @@ switch (arch) {
 ```java
 public static boolean useAVX2 = false;
 
-public static void init(){
+public static void init() {
     X86Info info = CpuFeatures.getX86Info();
     useAVX2 = info.features.avx2;
+    
+    List<X86Feature> features = info.featureList();
+    System.out.println("features: " + features);
 }
 ```
 

@@ -1,7 +1,7 @@
 import org.gradle.internal.os.OperatingSystem
 
 plugins {
-    id("publishing-conventions")
+    id("java-conventions")
 }
 
 val bindings = project(":cpu-features-jni-bindings")
@@ -12,34 +12,46 @@ dependencies {
 }
 
 afterEvaluate {
-    tasks {
-        register<Exec>("generateNatives${nativesExt.platform.get().capitalize()}") {
-            group = "natives"
-            val buildDir = "$rootDir/cpu_features/"
+    val os = OperatingSystem.current()
+    if (nativesExt.platformPredicate.get()(os)) {
+        apply(plugin = "publishing-conventions")
 
-            workingDir = File(buildDir)
-            // TODO there is a cleaner way to do this
-            // Windows requires `-G=Ninja` because otherwise it tries (and fails) to build with nmake
-            val os = OperatingSystem.current()
-            commandLine = when {
-                os.isWindows -> listOf("cmake", "-S.", "-Bbuild", "-DBUILD_TESTING=OFF", "-DCMAKE_BUILD_TYPE=Release", "-G=Ninja")
-                else -> listOf("cmake", "-S.", "-Bbuild", "-DBUILD_TESTING=OFF", "-DCMAKE_BUILD_TYPE=Release")
-            }
+        tasks {
+            register<Exec>("generateNatives") {
+                group = "natives"
+                val buildDir = "$rootDir/cpu_features/"
 
-            doLast {
-                exec {
-                    workingDir = File(buildDir)
-                    commandLine = listOf("cmake", "--build", "build", "--config", "Release", "-j")
+                workingDir = File(buildDir)
+                // TODO there is a cleaner way to do this
+                // Windows requires `-G=Ninja` because otherwise it tries (and fails) to build with nmake
+                commandLine = when {
+                    os.isWindows -> listOf(
+                        "cmake",
+                        "-S.",
+                        "-Bbuild",
+                        "-DBUILD_TESTING=OFF",
+                        "-DCMAKE_BUILD_TYPE=Release",
+                        "-G=Ninja"
+                    )
+
+                    else -> listOf("cmake", "-S.", "-Bbuild", "-DBUILD_TESTING=OFF", "-DCMAKE_BUILD_TYPE=Release")
+                }
+
+                doLast {
+                    exec {
+                        workingDir = File(buildDir)
+                        commandLine = listOf("cmake", "--build", "build", "--config", "Release", "-j")
+                    }
                 }
             }
-        }
 
-        jar {
-            bindings.tasks.withType<LinkSharedLibrary> {
-                this@jar.dependsOn(this)
-            }
-            from("${bindings.buildDir}/lib/main/debug/${nativesExt.bindingsFileName.get()}") {
-                into("cpufeatures/${nativesExt.destInnerDir.get()}")
+            jar {
+                bindings.tasks.withType<LinkSharedLibrary> {
+                    this@jar.dependsOn(this)
+                }
+                from("${bindings.buildDir}/lib/main/debug/${nativesExt.bindingsFileName.get()}") {
+                    into("cpufeatures/${nativesExt.destInnerDir.get()}")
+                }
             }
         }
     }

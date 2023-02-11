@@ -3,7 +3,7 @@ plugins {
 }
 
 natives {
-    platform.set("macos")
+    platformPredicate.set { it.isMacOsX }
     bindingsFileName.set("libcpu-features-jni-bindings.dylib")
     destInnerDir.set("macos")
 }
