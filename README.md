@@ -34,8 +34,8 @@ dependencies {
 }
 ```
 
-Usage is very similar to cpu_features. See [HelloCpuFeatures.java](cpu-features-jni-test/src/test/java/cpufeatures/HelloCpuFeatures.java) to get a minimal
-implementation.
+Usage is very similar to cpu_features. See [HelloCpuFeatures.java](cpu-features-jni-test/src/test/java/cpufeatures/HelloCpuFeatures.java)
+to get a minimal implementation.
 
 ### Entry point
 
