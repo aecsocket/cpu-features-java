@@ -11,7 +11,7 @@ library {
         compileTask.compilerArgs.add("--std=c++11")
         // include generated native code
         compileTask.dependsOn(baseProject.tasks["compileJava"])
-        compileTask.includes("${baseProject.buildDir}/generated/sources/annotationProcessor/java/main/cpufeatures/")
+        compileTask.includes("${baseProject.buildDir}/generated/sources/annotationProcessor/java/main/cpufeatures")
 
         // include JNI
         val os = targetPlatform.targetMachine.operatingSystemFamily

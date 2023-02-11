@@ -36,21 +36,23 @@ import java.util.concurrent.atomic.AtomicBoolean;
         #define CPU_FEATURES_JNI_ARCH 0
         #endif
         
-        jclass jni_IllegalStateException;
+        jclass jni_RuntimeException;
         
         #define WRONG_ARCH { \
-            env->ThrowNew(jni_IllegalStateException, "Wrong architecture for this method"); \
+            env->ThrowNew(jni_RuntimeException, "Wrong architecture for this method"); \
             return nullptr; \
         }
         
         using namespace cpu_features;""")
 @JniOnLoad("""
-        jni_IllegalStateException = env->FindClass("java/lang/IllegalStateException");
+        jni_RuntimeException = env->FindClass("java/lang/RuntimeException");
         if (env->ExceptionCheck()) return JNI_ERR;""")
 public final class CpuFeatures {
-    public static final String JNI_MODEL = "cpufeatures/CpuFeaturesJNI";
+    private CpuFeatures() {}
 
+    public static final String JNI_MODEL = "cpufeatures/CpuFeaturesJNI";
     private static final AtomicBoolean loaded = new AtomicBoolean(false);
+    private static CpuArchitecture architecture = null;
 
     public static void load() {
         if (loaded.getAndSet(true)) return;
@@ -75,7 +77,11 @@ public final class CpuFeatures {
         }
     }
 
-    public static CpuArchitecture getArchitecture() { return CpuArchitecture.values()[_getArchitecture()]; }
+    public static CpuArchitecture getArchitecture() {
+        if (architecture == null)
+            architecture = CpuArchitecture.values()[_getArchitecture()];
+        return architecture;
+    }
     @JniBind("return CPU_FEATURES_JNI_ARCH;")
     private static native int _getArchitecture();
 

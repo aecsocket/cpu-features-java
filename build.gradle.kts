@@ -8,5 +8,5 @@ val nativesMacos      = projects.cpuFeaturesJniNativesMacos.dependencyProject
 val nativesMacosArm64 = projects.cpuFeaturesJniNativesMacosArm64.dependencyProject
 
 group = "io.github.aecsocket"
-version = "0.1.0-SNAPSHOT"
+version = "0.1.1-SNAPSHOT"
 description = "Java bindings for Google cpu_features"
