@@ -42,4 +42,8 @@ public final class X86Info {
         }
         return result;
     }
+
+    public boolean has(X86Feature feature) {
+        return feature.has(features);
+    }
 }

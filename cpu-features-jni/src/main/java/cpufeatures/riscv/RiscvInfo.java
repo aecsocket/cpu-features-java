@@ -36,4 +36,8 @@ public final class RiscvInfo {
         }
         return result;
     }
+
+    public boolean has(RiscvFeature feature) {
+        return feature.has(features);
+    }
 }

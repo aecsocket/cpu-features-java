@@ -42,4 +42,8 @@ public final class ArmInfo {
         }
         return result;
     }
+
+    public boolean has(ArmFeature feature) {
+        return feature.has(features);
+    }
 }

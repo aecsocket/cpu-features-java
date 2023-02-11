@@ -38,4 +38,8 @@ public final class Aarch64Info {
         }
         return result;
     }
+
+    public boolean has(Aarch64Feature feature) {
+        return feature.has(features);
+    }
 }
