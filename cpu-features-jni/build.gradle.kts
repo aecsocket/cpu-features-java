@@ -7,7 +7,8 @@ if (!ci.get() || ciPublishApi.get()) {
 }
 
 dependencies {
-    implementation(libs.findBugs)
+    compileOnlyApi(libs.findBugs)
+    testImplementation(libs.findBugs)
     implementation(libs.jniGlueAnnotations)
     annotationProcessor(libs.jniGlueProcessor)
 }
