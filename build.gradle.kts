@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "io.github.aecsocket"
-version = "1.0.1"
+version = "1.0.2-SNAPSHOT"
 description = "Java bindings for Google cpu_features"
 
 tasks.register("printVersionType") {
