@@ -3,7 +3,8 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.findBugs)
+    compileOnlyApi(libs.findBugs)
+    testImplementation(libs.findBugs)
     implementation(libs.jniGlueAnnotations)
     annotationProcessor(libs.jniGlueProcessor)
 }
