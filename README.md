@@ -19,29 +19,9 @@ which features may be supported, so must rely on the most accessible version - w
 cpu_features, Java programs can detect which features the host CPU supports and load different native libraries based
 on this info.
 
-<div style="column-count: 2">
+**Architectures:** aarch64, arm, riscv, x86
 
-<div>
-Architectures:
-<ul>
-<li>aarch64</li>
-<li>arm</li>
-<li>riscv</li>
-<li>x86</li>
-</ul>
-</div>
-
-<div>
-Platforms:
-<ul>
-<li>linux</li>
-<li>windows</li>
-<li>macos</li>
-<li>macos-arm64</li>
-</ul>
-</div>
-
-</div>
+**Platforms:** linux, windows, macos, macos-arm64
 
 ## Usage
 
@@ -71,19 +51,19 @@ CpuFeatures.load();
 // System.load("name-of-lib-file");
 
 // CpuFeatures is the entry point to the application
-CpuArchitecture arch = CpuFeatures.getArchitecture();
-switch (arch) {
-    X86 -> {
+        CpuArchitecture arch = CpuFeatures.getArchitecture();
+        switch (arch) {
+        X86 -> {
         // The various -Info classes hold all CPU info
         X86Info info = CpuFeatures.getX86Info();
         System.out.println(info.vendor);
-    }
-    ARM -> {
+        }
+        ARM -> {
         ArmInfo info = CpuFeatures.getArmInfo();
         System.out.println(info.implementer);
-    }
-    // ...
-}
+        }
+        // ...
+        }
 ```
 
 ### Querying CPU features
@@ -92,14 +72,14 @@ switch (arch) {
 public static boolean useAVX2 = false;
 
 public static void init() {
-    X86Info info = CpuFeatures.getX86Info();
-    // Prefer accessing `features` directly over using an enum
-    useAVX2 = info.features.avx2;
-    // useAVX2 = info.has(X86Feature.AVX2);
-    
-    List<X86Feature> features = info.featureList();
-    System.out.println("features: " + features);
-}
+        X86Info info = CpuFeatures.getX86Info();
+        // Prefer accessing `features` directly over using an enum
+        useAVX2 = info.features.avx2;
+        // useAVX2 = info.has(X86Feature.AVX2);
+
+        List<X86Feature> features = info.featureList();
+        System.out.println("features: " + features);
+        }
 ```
 
 ## Building from source
