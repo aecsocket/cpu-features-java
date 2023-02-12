@@ -51,19 +51,19 @@ CpuFeatures.load();
 // System.load("name-of-lib-file");
 
 // CpuFeatures is the entry point to the application
-        CpuArchitecture arch = CpuFeatures.getArchitecture();
-        switch (arch) {
-        X86 -> {
+CpuArchitecture arch = CpuFeatures.getArchitecture();
+switch (arch) {
+    X86 -> {
         // The various -Info classes hold all CPU info
         X86Info info = CpuFeatures.getX86Info();
         System.out.println(info.vendor);
-        }
-        ARM -> {
+    }
+    ARM -> {
         ArmInfo info = CpuFeatures.getArmInfo();
         System.out.println(info.implementer);
-        }
-        // ...
-        }
+    }
+    // ...
+}
 ```
 
 ### Querying CPU features
@@ -72,14 +72,14 @@ CpuFeatures.load();
 public static boolean useAVX2 = false;
 
 public static void init() {
-        X86Info info = CpuFeatures.getX86Info();
-        // Prefer accessing `features` directly over using an enum
-        useAVX2 = info.features.avx2;
-        // useAVX2 = info.has(X86Feature.AVX2);
+    X86Info info = CpuFeatures.getX86Info();
+    // Prefer accessing `features` directly over using an enum
+    useAVX2 = info.features.avx2;
+    // useAVX2 = info.has(X86Feature.AVX2);
 
-        List<X86Feature> features = info.featureList();
-        System.out.println("features: " + features);
-        }
+    List<X86Feature> features = info.featureList();
+    System.out.println("features: " + features);
+}
 ```
 
 ## Building from source
