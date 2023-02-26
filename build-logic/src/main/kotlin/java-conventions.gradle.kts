@@ -13,3 +13,17 @@ indra {
 repositories {
     mavenCentral()
 }
+
+afterEvaluate {
+    tasks {
+        withType<JavaCompile> {
+            options.compilerArgs.addAll(listOf("--enable-preview"))
+        }
+
+        javadoc {
+            (options as CoreJavadocOptions).apply {
+                addBooleanOption("-enable-preview", true)
+            }
+        }
+    }
+}

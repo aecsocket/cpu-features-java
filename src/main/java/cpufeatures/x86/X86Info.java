@@ -7,6 +7,16 @@ import java.util.Set;
 
 import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
 
+/**
+ * Info on a processor running the X86 architecture.
+ * @param features Which features this processor supports.
+ * @param family Family.
+ * @param model Model.
+ * @param stepping Stepping.
+ * @param vendor Manufacturer.
+ * @param brandString Brand name.
+ * @param uarch Microarchitecture.
+ */
 public record X86Info(
     X86Features features,
     int family,
@@ -16,19 +26,25 @@ public record X86Info(
     String brandString,
     X86Uarch uarch
 ) {
-    private static final VarHandle a$VH = cpufeatures.natives.X86Features.$LAYOUT().varHandle(groupElement("a"));
-    private static final VarHandle b$VH = cpufeatures.natives.X86Features.$LAYOUT().varHandle(groupElement("b"));
-    private static final VarHandle c$VH = cpufeatures.natives.X86Features.$LAYOUT().varHandle(groupElement("c"));
+    private static final VarHandle a$VH = cpufeatures.natives.x86.X86Features.$LAYOUT().varHandle(groupElement("a"));
+    private static final VarHandle b$VH = cpufeatures.natives.x86.X86Features.$LAYOUT().varHandle(groupElement("b"));
+    private static final VarHandle c$VH = cpufeatures.natives.x86.X86Features.$LAYOUT().varHandle(groupElement("c"));
 
     private static boolean get(int bits, int position) {
         return ((bits >> position) & 1) == 1;
     }
 
+    /**
+     * Gets info on the X86 processor running on this JVM.
+     * <p>
+     * If the host is not on an X86 processor, this operation will fail.
+     * @return Processor info.
+     */
     public static X86Info get() {
         try (var memory = MemorySession.openConfined()) {
-            var info = cpufeatures.natives.CpuInfoX86.GetX86Info(memory);
+            var info = cpufeatures.natives.x86.CpuInfoX86.GetX86Info(memory);
 
-            var features = cpufeatures.natives.X86Info.features$slice(info);
+            var features = cpufeatures.natives.x86.X86Info.features$slice(info);
             int a = (int) a$VH.get(features);
             int b = (int) b$VH.get(features);
             int c = (int) c$VH.get(features);
@@ -109,13 +125,13 @@ public record X86Info(
             boolean fs_rep_stosb = get(c, 5);
             boolean fs_rep_cmpsb_scasb = get(c, 6);
 
-            int family = cpufeatures.natives.X86Info.family$get(info);
-            int model = cpufeatures.natives.X86Info.model$get(info);
-            int stepping = cpufeatures.natives.X86Info.stepping$get(info);
-            String vendor = cpufeatures.natives.X86Info.vendor$slice(info).getUtf8String(0);
-            String brandString = cpufeatures.natives.X86Info.brand_string$slice(info).getUtf8String(0);
+            int family = cpufeatures.natives.x86.X86Info.family$get(info);
+            int model = cpufeatures.natives.x86.X86Info.model$get(info);
+            int stepping = cpufeatures.natives.x86.X86Info.stepping$get(info);
+            String vendor = cpufeatures.natives.x86.X86Info.vendor$slice(info).getUtf8String(0);
+            String brandString = cpufeatures.natives.x86.X86Info.brand_string$slice(info).getUtf8String(0);
 
-            X86Uarch uarch = X86Uarch.values()[cpufeatures.natives.CpuInfoX86.GetX86Microarchitecture(info)];
+            X86Uarch uarch = X86Uarch.values()[cpufeatures.natives.x86.CpuInfoX86.GetX86Microarchitecture(info)];
 
             return new X86Info(
                     new X86Features(fpu, tsc, cx8, clfsh, mmx, aes, erms, f16c, fma4, fma3, vaes, vpclmulqdq, bmi1, hle, bmi2, rtm, rdseed, clflushopt, clwb, sse, sse2, sse3, ssse3, sse4_1, sse4_2, sse4a, avx, avx_vnni, avx2, avx512f, avx512cd, avx512er, avx512pf, avx512bw, avx512dq, avx512vl, avx512ifma, avx512vbmi, avx512vbmi2, avx512vnni, avx512bitalg, avx512vpopcntdq, avx512_4vnniw, avx512_4vbmi2, avx512_second_fma, avx512_4fmaps, avx512_bf16, avx512_vp2intersect, avx512_fp16, amx_bf16, amx_tile, amx_int8, pclmulqdq, smx, sgx, cx16, sha, popcnt, movbe, rdrnd, dca, ss, adx, lzcnt, gfni, movdiri, movdir64b, fs_rep_mov, fz_rep_movsb, fs_rep_stosb, fs_rep_cmpsb_scasb),
@@ -129,6 +145,11 @@ public record X86Info(
         }
     }
 
+    /**
+     * Gets a set of all features that this info holds. If you are testing for a specific feature, prefer using
+     * {@link #features()} instead.
+     * @return Set of features.
+     */
     public Set<X86Feature> featureSet() {
         var result = new LinkedHashSet<X86Feature>();
         for (var feature : X86Feature.values()) {

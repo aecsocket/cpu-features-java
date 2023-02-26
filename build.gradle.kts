@@ -18,8 +18,15 @@ dependencies {
 }
 
 tasks {
+    tasks {
+        withType<JavaCompile> {
+            options.compilerArgs.addAll(listOf("--enable-preview"))
+        }
+    }
+
     test {
         // todo
         systemProperty("java.library.path", "$cpuFeaturesDir/build")
+        jvmArgs("--enable-preview", "--enable-native-access=ALL-UNNAMED")
     }
 }

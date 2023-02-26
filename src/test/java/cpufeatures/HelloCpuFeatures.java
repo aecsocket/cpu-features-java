@@ -22,15 +22,24 @@ public final class HelloCpuFeatures {
     public void helloWorld() {
         var keys = new LinkedHashMap<String, String>();
 
-        X86Info info = X86Info.get();
-        keys.put("arch", "x86");
-        keys.put("brand", info.brandString());
-        keys.put("family", format(info.family()));
-        keys.put("model", format(info.model()));
-        keys.put("stepping", format(info.model()));
-        keys.put("uarch", info.uarch().name());
-        var featureSet = format(info.featureSet());
-        keys.put("flags", featureSet + " (" + featureSet.size() + ")");
+        CpuArchitecture arch = CpuFeatures.getArchitecture();
+        switch (arch) {
+            case AARCH64 -> throw new UnsupportedOperationException();
+            case ARM -> throw new UnsupportedOperationException();
+            case X86 -> {
+                X86Info info = X86Info.get();
+                keys.put("arch", "x86");
+                keys.put("family", format(info.family()));
+                keys.put("model", format(info.model()));
+                keys.put("stepping", format(info.stepping()));
+                keys.put("vendor", info.vendor());
+                keys.put("brand", info.brandString());
+                keys.put("uarch", info.uarch().name());
+                var featureSet = format(info.featureSet());
+                keys.put("flags", featureSet + " (" + featureSet.size() + ")");
+            }
+            default -> throw new RuntimeException("Invalid architecture " + arch);
+        }
 
         for (var entry : keys.entrySet()) {
             System.out.printf("%10s: %s%n", entry.getKey(), entry.getValue());

@@ -2,6 +2,9 @@ package cpufeatures.x86;
 
 import java.util.function.Predicate;
 
+/**
+ * Feature that can be present on an X86 processor.
+ */
 public enum X86Feature {
     FPU                 (X86Features::fpu),
     TSC                 (X86Features::tsc),
@@ -81,5 +84,10 @@ public enum X86Feature {
         this.predicate = predicate;
     }
 
+    /**
+     * Gets if this feature is present in a features object.
+     * @param features Features object.
+     * @return Present state.
+     */
     public boolean in(X86Features features) { return predicate.test(features); }
 }

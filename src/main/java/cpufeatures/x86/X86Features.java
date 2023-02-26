@@ -1,5 +1,79 @@
 package cpufeatures.x86;
 
+/**
+ * Feature set of a processor running the ARM architecture.
+ * @param fpu
+ * @param tsc
+ * @param cx8
+ * @param clfsh
+ * @param mmx
+ * @param aes
+ * @param erms
+ * @param f16c
+ * @param fma4
+ * @param fma3
+ * @param vaes
+ * @param vpclmulqdq
+ * @param bmi1
+ * @param hle
+ * @param bmi2
+ * @param rtm
+ * @param rdseed
+ * @param clflushopt
+ * @param clwb
+ * @param sse
+ * @param sse2
+ * @param sse3
+ * @param ssse3
+ * @param sse4_1
+ * @param sse4_2
+ * @param sse4a
+ * @param avx
+ * @param avx_vnni
+ * @param avx2
+ * @param avx512f
+ * @param avx512cd
+ * @param avx512er
+ * @param avx512pf
+ * @param avx512bw
+ * @param avx512dq
+ * @param avx512vl
+ * @param avx512ifma
+ * @param avx512vbmi
+ * @param avx512vbmi2
+ * @param avx512vnni
+ * @param avx512bitalg
+ * @param avx512vpopcntdq
+ * @param avx512_4vnniw
+ * @param avx512_4vbmi2
+ * @param avx512_second_fma
+ * @param avx512_4fmaps
+ * @param avx512_bf16
+ * @param avx512_vp2intersect
+ * @param avx512_fp16
+ * @param amx_bf16
+ * @param amx_tile
+ * @param amx_int8
+ * @param pclmulqdq
+ * @param smx
+ * @param sgx
+ * @param cx16
+ * @param sha
+ * @param popcnt
+ * @param movbe
+ * @param rdrnd
+ * @param dca
+ * @param ss
+ * @param adx
+ * @param lzcnt
+ * @param gfni
+ * @param movdiri
+ * @param movdir64b
+ * @param fs_rep_mov
+ * @param fz_rep_movsb
+ * @param fs_rep_stosb
+ * @param fs_rep_cmpsb_scasb
+ */
 public record X86Features(
         boolean fpu,
         boolean tsc,
