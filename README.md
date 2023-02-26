@@ -19,6 +19,10 @@ which features may be supported, so must rely on the most accessible version - w
 cpu_features, Java programs can detect which features the host CPU supports and load different native libraries based
 on this info.
 
+**Note**: Version 2.0 of this library uses the (currently unstable) Java foreign function interface, and will require
+Java 19 as well as the command line arguments `--enable-preview --enable-native-access=ALL-UNNAMED`. The previous
+version, using JNI and Java 15, is still available under `io.github.aecsocket:cpu-features-jni:1.0.1`.
+
 ## Coverage
 
 Platforms:
