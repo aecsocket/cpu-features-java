@@ -1,5 +1,4 @@
 plugins {
-    id("java-conventions")
     id("net.kyori.indra.publishing")
 }
 
@@ -12,7 +11,7 @@ signing {
 }
 
 indra {
-    github("aecsocket", "cpu-features-jni")
+    github("aecsocket", "cpu-features-java")
     mitLicense()
 
     configurePublications {

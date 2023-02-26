@@ -4,54 +4,48 @@ plugins {
     id("java-conventions")
 }
 
-val bindings = project(":cpu-features-jni-bindings")
 val nativesExt = extensions.create("natives", NativesExtension::class)
-
-dependencies {
-    implementation(project(":cpu-features-jni"))
-}
 
 afterEvaluate {
     val os = OperatingSystem.current()
-    if (nativesExt.platformPredicate.get()(os)) {
-        apply(plugin = "publishing-conventions")
+    if (!nativesExt.platformPredicate.get().test(os)) return@afterEvaluate
 
-        tasks {
-            register<Exec>("generateNatives") {
-                group = "natives"
-                val buildDir = "$rootDir/cpu_features/"
+    val workers = kotlin.math.min(32, Runtime.getRuntime().availableProcessors())
+    val nativesBuildDir = "$buildDir/natives"
 
-                workingDir = File(buildDir)
-                // TODO there is a cleaner way to do this
-                // Windows requires `-G=Ninja` because otherwise it tries (and fails) to build with nmake
-                commandLine = when {
-                    os.isWindows -> listOf(
-                        "cmake",
-                        "-S.",
-                        "-Bbuild",
-                        "-DBUILD_TESTING=OFF",
-                        "-DCMAKE_BUILD_TYPE=Release",
-                        "-G=Ninja"
+    // only publish if we can actually build the artifact
+    apply(plugin = "publishing-conventions")
+
+    tasks {
+        val assembleNatives = register<Exec>("assembleNatives") {
+            group = "build natives"
+
+            workingDir = file(cpuFeaturesDir)
+            commandLine = listOf(
+                "cmake",
+                "-S", ".",                                  // source at `cpu_features/`
+                "-B", file(nativesBuildDir).absolutePath,   // put makefiles into this project's `build/natives/`
+                "-G", nativesExt.generator.get(),           // use the platform-specific generator
+                "-DBUILD_TESTING=OFF",                      // no testing
+                "-DCMAKE_BUILD_TYPE=Release",               // release build type
+                "-DBUILD_SHARED_LIBS=ON",                   // make a platform-specific library (`.so` etc.), not a `.a`
+            )
+
+            doLast {
+                exec {
+                    workingDir = file(nativesBuildDir)
+                    commandLine = listOf(
+                        nativesExt.generatorBinary.get(),
+                        "-j$workers"
                     )
-
-                    else -> listOf("cmake", "-S.", "-Bbuild", "-DBUILD_TESTING=OFF", "-DCMAKE_BUILD_TYPE=Release")
-                }
-
-                doLast {
-                    exec {
-                        workingDir = File(buildDir)
-                        commandLine = listOf("cmake", "--build", "build", "--config", "Release", "-j")
-                    }
                 }
             }
+        }
 
-            jar {
-                bindings.tasks.withType<LinkSharedLibrary> {
-                    this@jar.dependsOn(this)
-                }
-                from("${bindings.buildDir}/lib/main/debug/${nativesExt.bindingsFileName.get()}") {
-                    into("cpufeatures/${nativesExt.destInnerDir.get()}")
-                }
+        jar {
+            dependsOn(assembleNatives.get())
+            from("$nativesBuildDir/${nativesExt.sourceLibraryName.get()}") {
+                into("cpufeatures/${nativesExt.destDir.get()}")
             }
         }
     }
