@@ -1,7 +1,10 @@
 plugins {
     id("parent-conventions")
     id("java-conventions")
-    id("publishing-conventions")
+}
+
+if (!ci.get() || ciPublishApi.get()) {
+    plugins.apply("publishing-conventions")
 }
 
 group = "io.github.aecsocket"
@@ -9,24 +12,19 @@ version = "2.0.0-SNAPSHOT"
 description = "Java bindings for Google cpu_features"
 
 dependencies {
-    implementation(projects.cpuFeaturesJavaNatives)
+    implementation(projects.cpuFeaturesJavaHeaders)
     compileOnlyApi(libs.findBugs)
 
-    testImplementation(libs.findBugs)
     testImplementation(libs.jUnitJupiterApi)
     testImplementation(libs.jUnitJupiterEngine)
+    testImplementation(libs.findBugs)
+    testRuntimeOnly(projects.cpuFeaturesJavaNativesLinuxX86)
+    testRuntimeOnly(projects.cpuFeaturesJavaNativesWindowsX86)
+    testRuntimeOnly(projects.cpuFeaturesJavaNativesMacosX86)
 }
 
-tasks {
-    tasks {
-        withType<JavaCompile> {
-            options.compilerArgs.addAll(listOf("--enable-preview"))
-        }
-    }
-
-    test {
-        // todo
-        systemProperty("java.library.path", "$cpuFeaturesDir/build")
-        jvmArgs("--enable-preview", "--enable-native-access=ALL-UNNAMED")
+tasks.register("printVersionType") {
+    doFirst {
+        println(if (net.kyori.indra.util.Versioning.isRelease(project)) "release" else "snapshot")
     }
 }

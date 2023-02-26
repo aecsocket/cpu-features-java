@@ -25,5 +25,9 @@ afterEvaluate {
                 addBooleanOption("-enable-preview", true)
             }
         }
+
+        test {
+            jvmArgs("--enable-preview", "--enable-native-access=ALL-UNNAMED")
+        }
     }
 }

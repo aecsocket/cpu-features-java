@@ -13,4 +13,8 @@ plugins {
 
 rootProject.name = "cpu-features-java"
 
-include("cpu-features-java-natives")
+include("cpu-features-java-headers")
+include("cpu-features-java-natives-linux-x86")
+include("cpu-features-java-natives-windows-x86")
+include("cpu-features-java-natives-macos-x86")
+include("cpu-features-java-natives-macos-aarch64")

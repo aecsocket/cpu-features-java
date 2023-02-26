@@ -17,6 +17,7 @@ jobs:
           - os: ubuntu-latest
             publish-api: true
     runs-on: ${{ matrix.os }}
+
     steps:
       - name: "Checkout source"
         uses: actions/checkout@v3
@@ -26,11 +27,11 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 19
       - name: "Setup Gradle"
         uses: gradle/gradle-build-action@v2
       - name: "Run Gradle build"
-        run: ./gradlew generateNatives build
+        run: ./gradlew build
       - name: "Get version type (sh)"
         if: ${{ matrix.os != 'windows-latest' }}
         run: |

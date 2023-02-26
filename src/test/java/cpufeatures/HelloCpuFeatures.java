@@ -20,6 +20,8 @@ public final class HelloCpuFeatures {
 
     @Test
     public void helloWorld() {
+        CpuFeatures.load();
+
         var keys = new LinkedHashMap<String, String>();
 
         CpuArchitecture arch = CpuFeatures.getArchitecture();
@@ -36,7 +38,7 @@ public final class HelloCpuFeatures {
                 keys.put("brand", info.brandString());
                 keys.put("uarch", info.uarch().name());
                 var featureSet = format(info.featureSet());
-                keys.put("flags", featureSet + " (" + featureSet.size() + ")");
+                keys.put("flags", "(" + featureSet.size() + ") " + featureSet);
             }
             default -> throw new RuntimeException("Invalid architecture " + arch);
         }
