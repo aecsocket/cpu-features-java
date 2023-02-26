@@ -1,0 +1,17 @@
+metadata:
+  format: { version: 1.0 }
+  polyglot-extensions: [ plugins ]
+
+versions:
+  indra: 3.0.1
+  jextract: 0.3.1
+  findBugs: 3.0.2
+  jUnit: 5.9.2
+
+dependencies:
+  indraCommon: { group: net.kyori, name: indra-common, version: { ref: indra } }
+  indraPublishingSonatype: { group: net.kyori, name: indra-publishing-sonatype, version: { ref: indra } }
+  jextract: { group: gradle.plugin.io.github.krakowski, name: gradle-jextract, version: { ref: jextract } }
+  findBugs: { group: com.google.code.findbugs, name: jsr305, version: { ref: findBugs } }
+  jUnitJupiterApi: { group: org.junit.jupiter, name: junit-jupiter-api, version: { ref: jUnit } }
+  jUnitJupiterEngine: { group: org.junit.jupiter, name: junit-jupiter-engine, version: { ref: jUnit } }

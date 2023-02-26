@@ -1,13 +1,25 @@
 plugins {
     id("parent-conventions")
+    id("java-conventions")
+    id("publishing-conventions")
 }
 
 group = "io.github.aecsocket"
-version = "1.0.2-SNAPSHOT"
+version = "2.0.0-SNAPSHOT"
 description = "Java bindings for Google cpu_features"
 
-tasks.register("printVersionType") {
-    doFirst {
-        println(if (net.kyori.indra.util.Versioning.isRelease(project)) "release" else "snapshot")
+dependencies {
+    implementation(projects.cpuFeaturesJavaNatives)
+    compileOnlyApi(libs.findBugs)
+
+    testImplementation(libs.findBugs)
+    testImplementation(libs.jUnitJupiterApi)
+    testImplementation(libs.jUnitJupiterEngine)
+}
+
+tasks {
+    test {
+        // todo
+        systemProperty("java.library.path", "$cpuFeaturesDir/build")
     }
 }
