@@ -29,7 +29,7 @@ public final class CpuFeatures {
                 default -> throw new RuntimeException("Invalid architecture " + arch + " for Linux");
             };
             case WINDOWS -> switch (arch) {
-                case X86 -> "windows_x86/cpu_features.dll";
+                case X86 -> "windows_x86/libcpu_features.dll";
                 default -> throw new RuntimeException("Invalid architecture " + arch + " for Windows");
             };
             case MACOS -> switch (arch) {

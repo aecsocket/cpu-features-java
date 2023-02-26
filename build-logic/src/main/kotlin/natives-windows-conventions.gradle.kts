@@ -6,5 +6,5 @@ extensions.getByType<NativesExtension>().apply {
     platformPredicate.set { it.isWindows }
     generator.set("Ninja")
     generatorBinary.set("ninja")
-    sourceLibraryName.set("cpu_features.dll")
+    sourceLibraryName.set("libcpu_features.dll")
 }
