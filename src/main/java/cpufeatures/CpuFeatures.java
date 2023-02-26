@@ -22,7 +22,7 @@ public final class CpuFeatures {
         if (loaded.getAndSet(true)) return;
 
         CpuPlatform platform = CpuPlatform.get();
-        CpuArchitecture arch = getArchitecture();
+        CpuArchitecture arch = CpuArchitecture.get();
         String resourcePath = "cpufeatures/" + switch (platform) {
             case LINUX -> switch (arch) {
                 case X86 -> "linux_x86/libcpu_features.so";
@@ -47,21 +47,5 @@ public final class CpuFeatures {
         } catch (IOException ex) {
             throw new RuntimeException("Could not load native library", ex);
         }
-    }
-
-    /**
-     * Gets the processor architecture that the machine running this JVM is on.
-     * @return Architecture.
-     */
-    public static CpuArchitecture getArchitecture() {
-        String arch = System.getProperty("os.arch")
-                .toLowerCase(Locale.ROOT)
-                .replaceAll("[^a-z0-9]+", "");
-        return switch (arch) {
-            case "aarch64" -> CpuArchitecture.AARCH64;
-            case "arm", "arm32" -> CpuArchitecture.ARM;
-            case "x8664", "amd64", "ia32e", "em64t", "x64" -> CpuArchitecture.X86;
-            default -> CpuArchitecture.UNKNOWN;
-        };
     }
 }

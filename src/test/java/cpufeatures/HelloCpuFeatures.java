@@ -24,7 +24,7 @@ public final class HelloCpuFeatures {
 
         var keys = new LinkedHashMap<String, String>();
 
-        CpuArchitecture arch = CpuFeatures.getArchitecture();
+        CpuArchitecture arch = CpuArchitecture.get();
         switch (arch) {
             case AARCH64 -> throw new UnsupportedOperationException();
             case ARM -> throw new UnsupportedOperationException();
