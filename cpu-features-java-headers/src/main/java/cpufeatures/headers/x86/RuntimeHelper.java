@@ -6,6 +6,8 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 
+import static java.lang.foreign.ValueLayout.*;
+
 final class RuntimeHelper {
 
     private RuntimeHelper() {}
@@ -18,7 +20,7 @@ final class RuntimeHelper {
             (size, align) -> MemorySegment.allocateNative(size, align, MemorySession.openImplicit());
 
     static {
-        //System.loadLibrary("cpu_features"); // cpu-features-java
+        
         SymbolLookup loaderLookup = SymbolLookup.loaderLookup();
         SYMBOL_LOOKUP = name -> loaderLookup.lookup(name).or(() -> LINKER.defaultLookup().lookup(name));
     }
@@ -201,11 +203,11 @@ final class RuntimeHelper {
 
         private MemoryLayout variadicLayout(Class<?> c) {
             if (c == long.class) {
-                return ValueLayout.JAVA_LONG;
+                return JAVA_LONG;
             } else if (c == double.class) {
-                return ValueLayout.JAVA_DOUBLE;
+                return JAVA_DOUBLE;
             } else if (MemoryAddress.class.isAssignableFrom(c)) {
-                return ValueLayout.ADDRESS;
+                return ADDRESS;
             } else {
                 throw new IllegalArgumentException("Unhandled variadic argument class: " + c);
             }

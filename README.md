@@ -96,6 +96,8 @@ public static void init() {
 
 ## Building from source
 
+On Windows, you need [Ninja](https://ninja-build.org/manual.html) installed.
+
 ```sh
 git clone https://github.com/aecsocket/cpu-features-java
 cd cpu-features-java
