@@ -25,6 +25,6 @@ dependencies {
 
 tasks.register("printVersionType") {
     doFirst {
-        println(if (net.kyori.indra.util.Versioning.isRelease(project)) "release" else "snapshot")
+        println(if (net.kyori.indra.util.Versioning.isSnapshot(project)) "snapshot" else "release")
     }
 }
