@@ -5,12 +5,12 @@ plugins {
 }
 
 val nativesExt = extensions.create("natives", NativesExtension::class)
+val workers = kotlin.math.min(32, Runtime.getRuntime().availableProcessors())
 
 afterEvaluate {
     val os = OperatingSystem.current()
     if (!nativesExt.platformPredicate.get().test(os)) return@afterEvaluate
 
-    val workers = kotlin.math.min(32, Runtime.getRuntime().availableProcessors())
     val nativesBuildDir = "$buildDir/natives"
 
     // only publish if we can actually build the artifact

@@ -13,7 +13,6 @@ public final class CpuFeatures {
     private CpuFeatures() {}
 
     private static final AtomicBoolean loaded = new AtomicBoolean(false);
-    public static boolean loaded() { return loaded.get(); }
 
     /**
      * Loads the native libraries from the JAR.
