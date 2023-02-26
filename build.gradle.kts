@@ -8,7 +8,7 @@ if (!ci.get() || ciPublishApi.get()) {
 }
 
 group = "io.github.aecsocket"
-version = "2.0.0-SNAPSHOT"
+version = "2.0.0"
 description = "Java bindings for Google cpu_features"
 
 dependencies {
