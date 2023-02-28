@@ -43,8 +43,8 @@ public record X86Info(
      * @return Processor info.
      */
     public static X86Info get() {
-        try (var memory = MemorySession.openConfined()) {
-            var info = GetX86Info(memory);
+        try (var session = MemorySession.openConfined()) {
+            var info = GetX86Info(session);
 
             var features = features$slice(info);
             int a = (int) a$VH.get(features);
