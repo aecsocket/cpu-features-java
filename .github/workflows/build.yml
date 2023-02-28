@@ -36,7 +36,7 @@ jobs:
         if: ${{ matrix.os != 'windows-latest' }}
         run: |
           version_type=$(./gradlew -q --console=plain --no-daemon printVersionType)
-          echo version_Type=$version_type
+          echo version_type=$version_type
           echo version_type=$version_type >> $GITHUB_ENV
       - name: "Get version type (ps)"
         if: ${{ matrix.os == 'windows-latest' }}
