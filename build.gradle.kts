@@ -3,9 +3,7 @@ plugins {
     id("java-conventions")
 }
 
-if (!ci.get() || ciPublishApi.get()) {
-    plugins.apply("publishing-conventions")
-}
+publishIfNeeded()
 
 group = "io.github.aecsocket"
 version = "2.0.0-SNAPSHOT"

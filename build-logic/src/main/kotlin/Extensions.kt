@@ -10,3 +10,9 @@ val Project.ci: Provider<Boolean>
 
 val Project.ciPublishApi: Provider<Boolean>
     get() = providers.environmentVariable("CI_PUBLISH_API").map { it.toBoolean() }.orElse(false)
+
+fun Project.publishIfNeeded() {
+    if (!ci.get() || ciPublishApi.get()) {
+        plugins.apply("publishing-conventions")
+    }
+}
