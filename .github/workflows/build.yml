@@ -32,13 +32,13 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: "Run Gradle build"
         run: ./gradlew build
-      - name: "Get version type (sh)"
+      - name: "sh: Get version type "
         if: ${{ matrix.os != 'windows-latest' }}
         run: |
           version_type=$(./gradlew -q --console=plain --no-daemon printVersionType)
           echo version_type=$version_type
           echo version_type=$version_type >> $GITHUB_ENV
-      - name: "Get version type (ps)"
+      - name: "ps: Get version type"
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           $version_type = ./gradlew -q --console=plain --no-daemon printVersionType
@@ -53,7 +53,7 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
       - name: "Publish release"
         if: ${{ env.version_type == 'release' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-        run: ./gradlew -PforceSign=true publishToSonatype closeAndReleaseSonatypeStagingRepository
+        run: ./gradlew -PforceSign=true publishToSonatype closeSonatypeStagingRepository
         env:
           CI_PUBLISH_API: ${{ matrix.publish-api }}
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
