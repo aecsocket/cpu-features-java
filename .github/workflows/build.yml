@@ -17,7 +17,6 @@ jobs:
           - os: ubuntu-latest
             publish-core: true
     runs-on: ${{ matrix.os }}
-
     steps:
       - name: "Checkout source"
         uses: actions/checkout@v3
