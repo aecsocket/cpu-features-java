@@ -6,7 +6,7 @@ signing {
     val signingKey = findProperty("signingKey") as? String
     val signingPassword = findProperty("signingPassword") as? String
     if (signingKey != null) {
-        println("Signing with in-memory PGP keys")
+        println("${project.name}: Signing with in-memory PGP keys")
         useInMemoryPgpKeys(signingKey, signingPassword)
     }
 }
