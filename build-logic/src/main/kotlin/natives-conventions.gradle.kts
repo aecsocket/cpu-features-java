@@ -44,9 +44,8 @@ afterEvaluate {
 
         jar {
             dependsOn(assembleNatives.get())
-            from("$nativesBuildDir/${nativesExt.sourceLibraryName.get()}") {
-                into("cpufeatures/${nativesExt.destDir.get()}")
-            }
+            from("$nativesBuildDir/${nativesExt.sourceLibraryName.get()}")
+            into("cpufeatures/${nativesExt.destDir.get()}")
         }
     }
 }

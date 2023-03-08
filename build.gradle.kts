@@ -3,7 +3,7 @@ plugins {
     id("java-conventions")
 }
 
-publishIfNeeded()
+publishCore()
 
 group = "io.github.aecsocket"
 version = "2.0.1"

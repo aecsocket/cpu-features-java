@@ -14,8 +14,8 @@ jobs:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
         include:
-          - os: windows-latest
-            publish-api: true
+          - os: macos-latest
+            publish-core: true
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -48,14 +48,14 @@ jobs:
         if: ${{ env.version_type == 'snapshot' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         run: ./gradlew publish
         env:
-          CI_PUBLISH_API: ${{ matrix.publish-api }}
+          CI_PUBLISH_CORE: ${{ matrix.publish-core }}
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
       - name: "Publish release"
         if: ${{ env.version_type == 'release' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         run: ./gradlew -PforceSign=true publishToSonatype closeSonatypeStagingRepository
         env:
-          CI_PUBLISH_API: ${{ matrix.publish-api }}
+          CI_PUBLISH_CORE: ${{ matrix.publish-core }}
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}

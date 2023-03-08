@@ -8,11 +8,11 @@ val Project.cpuFeaturesDir: File
 val Project.ci: Provider<Boolean>
     get() = providers.environmentVariable("CI").map { it.toBoolean() }.orElse(false)
 
-val Project.ciPublishApi: Provider<Boolean>
-    get() = providers.environmentVariable("CI_PUBLISH_API").map { it.toBoolean() }.orElse(false)
+val Project.ciPublishCore: Provider<Boolean>
+    get() = providers.environmentVariable("CI_PUBLISH_CORE").map { it.toBoolean() }.orElse(false)
 
-fun Project.publishIfNeeded() {
-    if (!ci.get() || ciPublishApi.get()) {
+fun Project.publishCore() {
+    if (!ci.get() || ciPublishCore.get()) {
         plugins.apply("publishing-conventions")
     }
 }
