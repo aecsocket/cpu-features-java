@@ -52,7 +52,7 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
       - name: "Publish release"
         if: ${{ env.version_type == 'release' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-        run: ./gradlew -PforceSign=true publishToSonatype closeSonatypeStagingRepository
+        run: ./gradlew --info -PforceSign=true publishToSonatype closeSonatypeStagingRepository
         env:
           CI_PUBLISH_CORE: ${{ matrix.publish-core }}
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
