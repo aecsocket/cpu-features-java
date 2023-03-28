@@ -4,6 +4,7 @@ plugins {
 }
 
 publishCore()
+configurePublishing()
 
 group = "io.github.aecsocket"
 version = "2.0.1"

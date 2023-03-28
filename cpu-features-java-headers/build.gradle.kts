@@ -5,6 +5,7 @@ plugins {
 }
 
 publishCore()
+configurePublishing()
 
 tasks {
     fun registerGenerateHeaders(platformKey: String, platformName: String) {
