@@ -20,9 +20,3 @@ dependencies {
     testRuntimeOnly(projects.cpuFeaturesJavaNativesWindowsX86)
     testRuntimeOnly(projects.cpuFeaturesJavaNativesMacosX86)
 }
-
-tasks.register("printVersionType") {
-    doFirst {
-        println(if (net.kyori.indra.util.Versioning.isSnapshot(project)) "snapshot" else "release")
-    }
-}
