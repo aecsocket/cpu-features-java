@@ -34,24 +34,24 @@ jobs:
       - name: "sh: Get version type "
         if: ${{ matrix.os != 'windows-latest' }}
         run: |
-          version_type=$(./gradlew -q --console=plain --no-daemon printVersionType)
-          echo version_type=$version_type
-          echo version_type=$version_type >> $GITHUB_ENV
+          VERSION_TYPE=$(./gradlew -q --console=plain --no-daemon printVersionType)
+          echo VERSION_TYPE=$VERSION_TYPE
+          echo VERSION_TYPE=$VERSION_TYPE >> $GITHUB_ENV
       - name: "ps: Get version type"
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
-          $version_type = ./gradlew -q --console=plain --no-daemon printVersionType
-          echo version_type=$version_type
-          echo version_type=$version_type >> $env:GITHUB_ENV
+          $VERSION_TYPE = ./gradlew -q --console=plain --no-daemon printVersionType
+          echo VERSION_TYPE=$VERSION_TYPE
+          echo VERSION_TYPE=$VERSION_TYPE >> $env:GITHUB_ENV
       - name: "Publish snapshot"
-        if: ${{ env.version_type == 'snapshot' && github.event_name == 'push' }}
+        if: ${{ env.VERSION_TYPE == 'snapshot' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         run: ./gradlew publish
         env:
           CI_PUBLISH_CORE: ${{ matrix.publish-core }}
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
       - name: "Publish release"
-        if: ${{ env.version_type == 'release' && github.event_name == 'push' }}
+        if: ${{ env.VERSION_TYPE == 'release' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         run: ./gradlew --info -PforceSign=true publishToSonatype closeSonatypeStagingRepository
         env:
           CI_PUBLISH_CORE: ${{ matrix.publish-core }}
