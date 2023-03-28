@@ -6,7 +6,7 @@ plugins {
 publishCore()
 
 group = "io.github.aecsocket"
-version = "2.0.1-SNAPSHOT"
+version = "2.0.1"
 description = "Java bindings for Google cpu_features"
 
 dependencies {
