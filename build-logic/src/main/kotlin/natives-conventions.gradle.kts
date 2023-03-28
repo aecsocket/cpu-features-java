@@ -14,7 +14,6 @@ afterEvaluate {
 
     // only publish if we can actually build the artifact
     apply(plugin = "publishing-conventions")
-    configurePublishing()
 
     tasks {
         val assembleNatives = register<Exec>("assembleNatives") {
