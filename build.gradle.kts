@@ -3,10 +3,9 @@ plugins {
     id("java-conventions")
 }
 
-publishCore()
 
 group = "io.github.aecsocket"
-version = "2.0.1-SNAPSHOT"
+version = "2.0.1"
 description = "Java bindings for Google cpu_features"
 
 dependencies {
@@ -21,8 +20,10 @@ dependencies {
     testRuntimeOnly(projects.cpuFeaturesJavaNativesMacosX86)
 }
 
-tasks.register("printVersionType") {
-    doFirst {
-        println(if (net.kyori.indra.util.Versioning.isSnapshot(project)) "snapshot" else "release")
+if (!publishCore()) {
+    tasks {
+        withType<PublishToMavenRepository> {
+            enabled = false
+        }
     }
 }
