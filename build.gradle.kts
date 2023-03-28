@@ -20,7 +20,7 @@ dependencies {
     testRuntimeOnly(projects.cpuFeaturesJavaNativesMacosX86)
 }
 
-if (publishCore()) {
+if (!publishCore()) {
     tasks {
         withType<PublishToMavenRepository> {
             enabled = false
