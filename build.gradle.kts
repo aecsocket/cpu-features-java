@@ -3,7 +3,6 @@ plugins {
     id("java-conventions")
 }
 
-publishCore()
 
 group = "io.github.aecsocket"
 version = "2.0.1"
@@ -19,4 +18,12 @@ dependencies {
     testRuntimeOnly(projects.cpuFeaturesJavaNativesLinuxX86)
     testRuntimeOnly(projects.cpuFeaturesJavaNativesWindowsX86)
     testRuntimeOnly(projects.cpuFeaturesJavaNativesMacosX86)
+}
+
+if (publishCore()) {
+    tasks {
+        withType<PublishToMavenRepository> {
+            enabled = false
+        }
+    }
 }
